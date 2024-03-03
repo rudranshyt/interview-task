@@ -7,12 +7,17 @@
 -->
 <template>
     <div class="main">
-        <lightning-record-edit-form object-api-name="Account" record-id={recordId}>
-            <lightning-input-field field-name="Name"> </lightning-input-field> <lightning-input-field field-name="Last_Name__c"> </lightning-input-field>
-             <lightning-input-field field-name="Phone"> </lightning-input-field>
-             <lightning-input-field field-name="Date_of_Birth__c"> </lightning-input-field>
-             <lightning-input-field field-name="T_shirt_Sizes__c"> </lightning-input-field>
-             <lightning-input-field field-name="Shoe_size__c"> </lightning-input-field>
+        <lightning-record-edit-form object-api-name="Account" record-id={recordId} onsuccess={handleSuccess}>
+            <lightning-input-field field-name="Name"> </lightning-input-field> <lightning-input-field
+                field-name="Last_Name__c"> </lightning-input-field>
+            <lightning-input-field field-name="Phone"> </lightning-input-field>
+            <lightning-input-field field-name="Date_of_Birth__c"> </lightning-input-field>
+            <lightning-input-field field-name="T_shirt_Sizes__c"> </lightning-input-field>
+            <lightning-input-field field-name="Shoe_size__c"> </lightning-input-field>
         </lightning-record-edit-form>
+
+        <div style="text-align: right;">
+            <lightning-button variant="brand" type="submit" label="Save" onclick={handleSave}></lightning-button>
+        </div>
     </div>
 </template>
