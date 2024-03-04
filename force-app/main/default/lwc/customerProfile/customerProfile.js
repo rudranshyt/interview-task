@@ -4,7 +4,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class CustomerProfile extends LightningElement {
 
-    recordId = null;
+    recordId;
 
     @wire(CurrentPageReference)
     getStateParams(currentPageReference) {

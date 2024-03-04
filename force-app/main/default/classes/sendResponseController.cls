@@ -1,14 +1,13 @@
 /**
  * @description       : This class handles updating customer profile information and sending a POST request to a given endpoint
  * @author            : Rudransh Shukla
- * @last modified on  : 03-03-2024
+ * @last modified on  : 03-04-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class sendResponseController {
-    
-    @InvocableMethod(label='Update Customer Profile and Send Response')
-    public static void updateCustomerProfile(list<string> recordId) {
-        List<Account> accountInfo = [SELECT Id, Email__c, T_shirt_Sizes__c, Shoe_size__c FROM Account WHERE Id = :recordId LIMIT 1];
+    @future(callout=true)
+    public static void updateCustomerProfile(string recordId) {
+        List<Account> accountInfo = [SELECT Id, Email__c, T_shirt_Sizes__c, Shoe_size__c, Loyalty_Customer_ID__c FROM Account WHERE Id = :recordId LIMIT 1];
 
         if (!accountInfo.isEmpty()) {
             String endpoint = 'https://integrations.commutatus.com/webhook/719ce78d-c2c5-47a8-986a-39d7e7a5652d';
@@ -26,9 +25,13 @@ public with sharing class sendResponseController {
 
            
             if (response.getStatusCode() == 200) {
+                Map<String, Object> jsonResponse = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+                String customerId = String.valueOf(jsonResponse.get('customer_id'));
                 
-                system.debug('Success----->'+response.getBody());
-            } else {
+                accountInfo[0].Loyalty_Customer_ID__c = customerId;
+                update accountInfo;
+
+                system.debug('Success----->'+response.getBody()); 
 
                 system.debug('Error in webhook callout------>' + response.getBody());
             }

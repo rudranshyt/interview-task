@@ -2,10 +2,13 @@
  * @description       : handler class for account update trigger
  * @author            : Rudransh Shukla
  * @group             : 
- * @last modified on  : 03-03-2024
+ * @last modified on  : 03-04-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class AccountTriggerHandler {
+    
+    private static boolean isProcessing = false;
+
     public static void handleAfterUpdate(List<Account> newAccounts, Map<Id, Account> oldMap) {
         Set<Id> accountIdsToUpdate = new Set<Id>();
         
@@ -19,7 +22,12 @@ public with sharing class AccountTriggerHandler {
                 accountIdsToUpdate.add(updatedAccount.Id);
             }
         }
-        updateProfileCompleted(accountIdsToUpdate);
+
+        if (!isProcessing) {
+            isProcessing = true;
+            updateProfileCompleted(accountIdsToUpdate);
+            isProcessing = false;
+        }
     }
 
     private static void updateProfileCompleted(Set<Id> accountIds) {
@@ -30,9 +38,17 @@ public with sharing class AccountTriggerHandler {
 
         try {
             update accountsToUpdate;
+            for(Id accountId : accountIds) {
+                makeCallout(accountId);
+            }
+
         } catch (Exception ex) {
-            
-            System.debug('Error occurred: ' + ex.getMessage());
+            System.debug('Error occurred---------> ' + ex.getMessage());
         }
+    }
+
+    public static void makeCallout(string accountId){
+        String recordId = accountId;
+        sendResponseController.updateCustomerProfile(recordId);
     }
 }
