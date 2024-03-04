@@ -46,8 +46,8 @@ public with sharing class AccountTriggerHandler {
             System.debug('Error occurred---------> ' + ex.getMessage());
         }
     }
-
-    public static void makeCallout(string accountId){
+    
+    private static void makeCallout(string accountId){
         String recordId = accountId;
         sendResponseController.updateCustomerProfile(recordId);
     }
