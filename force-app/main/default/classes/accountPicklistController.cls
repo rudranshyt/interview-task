@@ -5,7 +5,7 @@
  * @last modified on  : 03-06-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public with sharing class accountPicklistController {
+public without sharing class accountPicklistController {
     public List<String> getPicklistValues(
     String objectApiName,
     String fieldName
@@ -35,7 +35,6 @@ public with sharing class accountPicklistController {
     System.debug('started');
 
     String fieldName = 'T_shirt_Sizes__c';
-    //String objectApiName = 'Person_Account__c';
     String objectApiName = 'account';
 
     accountPicklistController controller = new accountPicklistController();
