@@ -2,25 +2,44 @@
   @description       : this component is the UI of the customer profile account
   @author            : rudransh shukla
   @group             : 
-  @last modified on  : 03-05-2024
+  @last modified on  : 03-06-2024
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
-    <div class="main">
-        <div style="text-align:center">
-            <h1>Please Fill in all the details</h1>
-        </div>
-        <lightning-record-edit-form object-api-name="Account" record-id={recordId}  onsuccess={handleSuccess}>
-            <lightning-input-field field-name="Name"> </lightning-input-field> <lightning-input-field
-                field-name="Last_Name__c"> </lightning-input-field>
-            <lightning-input-field field-name="Phone"> </lightning-input-field>
-            <lightning-input-field field-name="Date_of_Birth__c"> </lightning-input-field>
-            <lightning-input-field field-name="T_shirt_Sizes__c"> </lightning-input-field>
-            <lightning-input-field field-name="Shoe_size__c"> </lightning-input-field>
-        </lightning-record-edit-form>
-
-        <div style="text-align: right;">
-            <lightning-button variant="brand" type="submit" label="Save" onclick={handleSave}></lightning-button>
-        </div>
+  <div class="main">
+    <div style="text-align:center">
+      <h1>Please Fill in all the details</h1>
     </div>
+
+    <lightning-input type="tel" label="Phone Number" placeholder="(123) 456-7890" value={phoneNumber}
+      onchange={handlePhoneChange}></lightning-input>
+
+    <lightning-input type="date" label="Date of Birth" value={dob} onchange={handleDob}></lightning-input>
+
+    <div class="picklist">
+      <label for="tshirt">Tshirt Size</label>
+      <select id="tshirt" onchange={handleTshirtValue}>
+        <option value="" disabled selected>Select Size</option>
+        <template for:each={tshirtValues} for:item="tshirt">
+          <option key={tshirt} value={tshirt}>{tshirt}</option>
+        </template>
+      </select>
+    </div>
+
+    <div class="picklist">
+      <label for="shoe">Shoe Size</label>
+      <select id="shoe" onchange={handleShoeSize}>
+        <option value="" disabled selected>Select Size</option>
+        <template for:each={shoeSizeValues} for:item="shoe">
+          <option key={shoe} value={shoe}>{shoe}</option>
+        </template>
+      </select>
+    </div>
+
+
+    <div class="btn">
+      <lightning-button variant="brand" label="Save" onclick={handleSave}></lightning-button>
+    </div>
+
+  </div>
 </template>
